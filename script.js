@@ -6,7 +6,6 @@ var markers = [];
 
 function initialize(){
   var center = new google.maps.LatLng(37.4222, -122.084058);
-  var center2 = new google.maps.LatLng(37.7749, -122.4194);
   map = new google.maps.Map(document.getElementById('map'), {
     center: center,
     zoom: 12
@@ -25,6 +24,7 @@ function initialize(){
   google.maps.event.addListener(map, 'dblclick', function(event){
     map.setCenter(event.latLng)
     clearResults(markers)
+    console.log(markers.length)
 
     request = {
       location: event.latLng,
@@ -37,7 +37,7 @@ function initialize(){
 
 function callback(results, status){
   if (status == google.maps.places.PlacesServiceStatus.OK){
-    for (var i = 0; i < results.length; i++){
+    for (var i = 0; i < 9; i++){
       markers.push(createMarker(results[i]));
     }
   }
@@ -49,10 +49,13 @@ function createMarker(place){
     map: map,
     position: place.geometry.location
   });
-  google.maps.event.addListener(marker, 'click', function() {
-    infoWindow.setContent(place.name);
-    infoWindow.open(map, this);
-  });
+  var request = { reference: place.reference };
+  service.getDetails(request, function(details, status) {
+    google.maps.event.addListener(marker, 'click', function() {
+      infoWindow.setContent(details.name + '<br>' + details.formatted_address);
+      infoWindow.open(map, this);
+    });
+  })
   return marker
 }
 
