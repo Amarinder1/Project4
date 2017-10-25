@@ -68,6 +68,7 @@ function createMarker(place){
       infoWindow.setContent('<strong>' + details.name + '</strong><br>' + details.formatted_address + '<br>' +
                               details.rating + '/5 stars<br> Open Now: ' + details.opening_hours.open_now + '<br> Closes at: ' +
                               details.opening_hours.periods[0,1,2,3,4,5,6].close.time +
+                              //when link is clicked on, will open google maps in new window with destination already filled out with cafe's lcoation
                               `<br>Directions: <a href="https://www.google.com/maps/dir/?api=1&destination=${details.formatted_address} "target = _blank"">To here<\/a>`);
       infoWindow.open(map, this);
     });
