@@ -3,19 +3,18 @@ var infoWindow;
 var service;
 var request;
 var markers = [];
-var directionsDisplay = new google.maps.DirectionsRenderer();
-var directionsService = new google.maps.DirectionsService();
 var htmls = [];
 var to_htmls = [];
 var from_htmls = [];
 
 function initialize(){
-  //creates initiali starting point
+  //creates initial starting point
   var center = new google.maps.LatLng(37.4222, -122.084058);
   map = new google.maps.Map(document.getElementById('map'), {
     center: center,
     zoom: 12
   });
+
   //finding cafes within 5miles of starting location
   request = {
     location: center,
@@ -61,11 +60,15 @@ function createMarker(place){
     map: map,
     position: place.geometry.location
   });
+
   //when you click on a map marker, will show name, address, and rating
   var request = { reference: place.reference };
   service.getDetails(request, function(details, status) {
     google.maps.event.addListener(marker, 'click', function() {
-      infoWindow.setContent('<strong>' + details.name + '</strong><br>' + details.formatted_address + '<br>' + details.rating + '/5 stars<br> Open Now: ' + details.opening_hours.open_now);
+      infoWindow.setContent('<strong>' + details.name + '</strong><br>' + details.formatted_address + '<br>' +
+                              details.rating + '/5 stars<br> Open Now: ' + details.opening_hours.open_now + '<br> Closes at: ' +
+                              details.opening_hours.periods[0,1,2,3,4,5,6].close.time +
+                              `<br>Directions: <a href="https://www.google.com/maps/dir/?api=1&destination=${details.formatted_address} "target = _blank"">To here<\/a>`);
       infoWindow.open(map, this);
     });
   })
