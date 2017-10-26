@@ -3,9 +3,6 @@ var infoWindow;
 var service;
 var request;
 var markers = [];
-var htmls = [];
-var to_htmls = [];
-var from_htmls = [];
 
 function initialize(){
   //creates initial starting point at white house
@@ -27,14 +24,14 @@ function initialize(){
 
   service.nearbySearch(request, callback);
 
-  //setting new center
+  //setting new center when double clicking
   //will clear previous markers and create new ones
   google.maps.event.addListener(map, 'dblclick', function(event){
     map.setCenter(event.latLng)
     clearResults(markers)
 
     request = {
-      location: event.latLng,
+      location: event.latLng, //sets new center at double clicked point
       radius: 1609, // in meters. equals 1 mile
       types: ['cafe'],
       zoom: 14
@@ -61,7 +58,7 @@ function createMarker(place){
     position: place.geometry.location
   });
 
-  //when you click on a map marker, will show name, address, and rating
+  //when you click on a map marker, will show name, address, rating, and hours of operation
   var request = { reference: place.reference };
   service.getDetails(request, function(details, status) {
     google.maps.event.addListener(marker, 'click', function() {
