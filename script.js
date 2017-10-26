@@ -8,17 +8,17 @@ var to_htmls = [];
 var from_htmls = [];
 
 function initialize(){
-  //creates initial starting point
-  var center = new google.maps.LatLng(37.4222, -122.084058);
+  //creates initial starting point at white house
+  var center = new google.maps.LatLng(38.8976805, -77.0387185);
   map = new google.maps.Map(document.getElementById('map'), {
     center: center,
-    zoom: 12
+    zoom: 14
   });
 
   //finding cafes within 5miles of starting location
   request = {
     location: center,
-    radius: 8047, //in meters. equals 5 miles
+    radius: 1609, //in meters. equals 1 mile
     types: ['cafe']
   };
 
@@ -32,12 +32,12 @@ function initialize(){
   google.maps.event.addListener(map, 'dblclick', function(event){
     map.setCenter(event.latLng)
     clearResults(markers)
-    console.log(markers.length)
 
     request = {
       location: event.latLng,
-      radius: 8047, // in meters. equals 5 miles
-      types: ['cafe']
+      radius: 1609, // in meters. equals 1 mile
+      types: ['cafe'],
+      zoom: 14
     };
     service.nearbySearch(request, callback);
   })
@@ -67,7 +67,7 @@ function createMarker(place){
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.setContent('<strong>' + details.name + '</strong><br>' + details.formatted_address + '<br>' +
                               details.rating + '/5 stars<br> Open Now: ' + details.opening_hours.open_now + '<br> Closes at: ' +
-                              details.opening_hours.periods[0,1,2,3,4,5,6].close.time +
+                              details.opening_hours.periods[6].close.time +
                               //when link is clicked on, will open google maps in new window with destination already filled out with cafe's lcoation
                               `<br>Directions: <a href="https://www.google.com/maps/dir/?api=1&destination=${details.formatted_address} "target = _blank"">To here<\/a>`);
       infoWindow.open(map, this);
