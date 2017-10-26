@@ -66,8 +66,7 @@ function createMarker(place){
   service.getDetails(request, function(details, status) {
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.setContent('<strong>' + details.name + '</strong><br>' + details.formatted_address + '<br>' +
-                              details.rating + '/5 stars<br> Open Now: ' + details.opening_hours.open_now + '<br> Closes at: ' +
-                              details.opening_hours.periods[6].close.time +
+                              details.rating + '/5 stars<br> Hours of Operation: ' + details.opening_hours.weekday_text +
                               //when link is clicked on, will open google maps in new window with destination already filled out with cafe's lcoation
                               `<br>Directions: <a href="https://www.google.com/maps/dir/?api=1&destination=${details.formatted_address} "target = _blank"">To here<\/a>`);
       infoWindow.open(map, this);
