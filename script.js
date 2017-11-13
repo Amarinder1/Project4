@@ -12,7 +12,7 @@ function initialize(){
     zoom: 14
   });
 
-  //finding cafes within 5miles of starting location
+  //finding cafes within 1 mile of starting location
   request = {
     location: center,
     radius: 1609, //in meters. equals 1 mile
